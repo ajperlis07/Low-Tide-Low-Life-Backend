@@ -6,6 +6,17 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
+def html_strip(strip)
+    ActionView::Base.full_sanitizer.sanitize(strip).squish
+end
+
+def image_strip(strip)
+    ActionView::Base.full_sanitizer.sanitize(strip)
+end
+
+
+
+
 resp = RestClient::Request.execute(method: :get, 
     url: "https://www.fishwatch.gov/api/species",
     headers:{
@@ -13,20 +24,21 @@ resp = RestClient::Request.execute(method: :get,
     })
     fish_data = JSON.parse(resp.body)
     fishes = fish_data
-
+    fish = fish_data[0]
+    # byebug 
     fishes.each do |fish|
         Fish.create(
             species_name: fish["Species Name"],
             scientific_name: fish["Scientific Name"],
             image_gallery: fish["Image Gallery"],
-            biology: fish["Biology"],
+            biology: html_strip(fish["Biology"]),
             population: fish["Population"],
             calories: fish["Calories"],
             carbohydrate: fish["Carbohydrate"],
             cholesterol: fish["Cholesterol"],
             fat_total: fish["Fat, Total"],
             health_benefits: fish["Health Benefits"],
-            physical_description: fish["Physical Description"],
+            physical_description: html_strip(fish["Physical Description"]),
             protein: fish["Protein"],
             saturated_fat: fish["Saturated Fatty Acids, Total"],
             selenium: fish["Selenium"],
