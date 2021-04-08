@@ -36,4 +36,9 @@ resp = RestClient::Request.execute(method: :get,
         )
     end
 
+    user1 = User.create(username: "GenericUser")
+    user2 = User.create(username: "GenericUser2")
+
+    recipe1 = Recipe.create(user_id: 1, fish_id: 13, instruction: "Test Recipe", story: "Test Story")
+
     puts " 🐟 🎣  Fishing Time 🐡 🎏" 
