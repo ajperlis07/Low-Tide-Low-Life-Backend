@@ -7,11 +7,24 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 
 def html_strip(strip)
-    ActionView::Base.full_sanitizer.sanitize(strip).squish
+    if (strip) 
+        return ActionView::Base.full_sanitizer.sanitize(strip).squish
+    else ""
+    end
 end
 
 def image_strip(strip)
     ActionView::Base.full_sanitizer.sanitize(strip)
+end
+
+def image_parse(parse)
+    if (parse) 
+        if (parse.class.to_s == "Hash")
+            return parse["src"]
+        else return parse[0]["src"]
+        end
+    else ""
+    end
 end
 
 
@@ -27,17 +40,18 @@ resp = RestClient::Request.execute(method: :get,
     fish = fish_data[0]
     # byebug 
     fishes.each do |fish|
+        # puts fish['Image Gallery']
         Fish.create(
             species_name: fish["Species Name"],
             scientific_name: fish["Scientific Name"],
-            image_gallery: fish["Image Gallery"],
+            image_gallery: image_parse(fish["Image Gallery"]),
             biology: html_strip(fish["Biology"]),
-            population: fish["Population"],
+            population: html_strip(fish["Population"]),
             calories: fish["Calories"],
             carbohydrate: fish["Carbohydrate"],
             cholesterol: fish["Cholesterol"],
             fat_total: fish["Fat, Total"],
-            health_benefits: fish["Health Benefits"],
+            health_benefits: html_strip(fish["Health Benefits"]),
             physical_description: html_strip(fish["Physical Description"]),
             protein: fish["Protein"],
             saturated_fat: fish["Saturated Fatty Acids, Total"],
