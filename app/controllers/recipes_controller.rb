@@ -40,7 +40,7 @@ class RecipesController < ApplicationController
     private
 
     def recipe_params
-        params.permit(:instruction, :story, :fish_id, :user_id)
+        params.permit(:instruction, :story, :fish_id, :user_id, :recipe, :id, :description)
     end
 
 end
