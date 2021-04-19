@@ -66,6 +66,10 @@ resp = RestClient::Request.execute(method: :get,
     user1 = User.create(username: "GenericUser")
     user2 = User.create(username: "GenericUser2")
 
-    recipe1 = Recipe.create(user_id: 1, fish_id: 13, instruction: "Test Recipe", story: "Test Story")
+    recipe1 = Recipe.create(user_id: 1, fish_id: 13, instruction: "Test Recipe", story: "Test Story",  description: "Lemon Zested Blueline Tilefish")
 
+
+    favorite1 = Favorite.create(user_id: 1, recipe_id: 1, fish_id:13)
+    
+    
     puts " 🐟 🎣  Fishing Time 🐡 🎏" 
